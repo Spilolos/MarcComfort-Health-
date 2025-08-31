@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthHub - Your Personalized Health Companion</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-heartbeat"></i>
+                <span>HealthHub</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#health-assessment" class="nav-link">Health Assessment</a></li>
+                <li><a href="#resources" class="nav-link">Resources</a></li>
+                <li><a href="#support" class="nav-link">Support</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Your Personalized Health Journey Starts Here</h1>
+                <p>Get tailored health advice, access comprehensive resources, and find the support you need to achieve your wellness goals.</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('health-assessment')">
+                        <i class="fas fa-clipboard-check"></i>
+                        Start Health Assessment
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('resources')">
+                        <i class="fas fa-book-medical"></i>
+                        Browse Resources
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <div class="health-icons">
+                    <i class="fas fa-heartbeat pulse"></i>
+                    <i class="fas fa-dumbbell bounce"></i>
+                    <i class="fas fa-apple-alt rotate"></i>
+                    <i class="fas fa-running slide"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Authentication Forms -->
+    <div id="auth-container">
+      <div id="signup-form">
+        <h2>Sign Up</h2>
+        <input type="text" id="signup-username" placeholder="Username" required />
+        <input type="email" id="signup-email" placeholder="Email" required />
+        <input type="password" id="signup-password" placeholder="Password" required />
+        <button onclick="signUp()">Sign Up</button>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login here</a></p>
+      </div>
+      <div id="login-form" style="display:none;">
+        <h2>Login</h2>
+        <input type="text" id="login-username" placeholder="Username" required />
+        <input type="password" id="login-password" placeholder="Password" required />
+        <button onclick="logIn()">Login</button>
+        <p>Don't have an account? <a href="#" onclick="showSignUp()">Sign up here</a></p>
+      </div>
+    </div>
+    <a id="portal-link" href="user_portal.html" style="display:none;">Go to User Portal</a>
+
+    <!-- Health Assessment Section -->
+    <section id="health-assessment" class="assessment">
+        <div class="container">
+            <h2>Personalized Health Assessment</h2>
+            <p class="section-subtitle">Answer a few questions to receive customized health recommendations</p>
+            
+            <div class="assessment-container">
+                <div class="assessment-form">
+                    <div class="form-step active" id="step-1">
+                        <h3>Basic Information</h3>
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" min="1" max="120" placeholder="Enter your age">
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender">
+                                <option value="">Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="weight">Weight (kg)</label>
+                            <input type="number" id="weight" min="20" max="300" step="0.1" placeholder="Enter your weight">
+                        </div>
+                        <div class="form-group">
+                            <label for="height">Height (cm)</label>
+                            <input type="number" id="height" min="100" max="250" placeholder="Enter your height">
+                        </div>
+                        <button class="btn btn-primary" onclick="nextStep()">Next</button>
+                    </div>
+
+                    <div class="form-step" id="step-2">
+                        <h3>Lifestyle & Health</h3>
+                        <div class="form-group">
+                            <label for="activity">Activity Level</label>
+                            <select id="activity">
+                                <option value="">Select activity level</option>
+                                <option value="sedentary">Sedentary (little to no exercise)</option>
+                                <option value="light">Lightly active (light exercise 1-3 days/week)</option>
+                                <option value="moderate">Moderately active (moderate exercise 3-5 days/week)</option>
+                                <option value="very">Very active (hard exercise 6-7 days/week)</option>
+                                <option value="extra">Extra active (very hard exercise, physical job)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="sleep">Sleep Quality</label>
+                            <select id="sleep">
+                                <option value="">Select sleep quality</option>
+                                <option value="excellent">Excellent (8+ hours, feel rested)</option>
+                                <option value="good">Good (7-8 hours, mostly rested)</option>
+                                <option value="fair">Fair (6-7 hours, sometimes tired)</option>
+                                <option value="poor">Poor (<6 hours, often tired)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="stress">Stress Level</label>
+                            <select id="stress">
+                                <option value="">Select stress level</option>
+                                <option value="low">Low stress</option>
+                                <option value="moderate">Moderate stress</option>
+                                <option value="high">High stress</option>
+                                <option value="very-high">Very high stress</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="diet">Diet Type</label>
+                            <select id="diet">
+                                <option value="">Select diet preference</option>
+                                <option value="balanced">Balanced/No restrictions</option>
+                                <option value="vegetarian">Vegetarian</option>
+                                <option value="vegan">Vegan</option>
+                                <option value="low-carb">Low-carb</option>
+                                <option value="mediterranean">Mediterranean</option>
+                            </select>
+                        </div>
+                        <div class="form-buttons">
+                            <button class="btn btn-secondary" onclick="prevStep()">Previous</button>
+                            <button class="btn btn-primary" onclick="nextStep()">Next</button>
+                        </div>
+                    </div>
+
+                    <div class="form-step" id="step-3">
+                        <h3>Health Goals</h3>
+                        <div class="form-group">
+                            <label>What are your main health goals? (Select all that apply)</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="weight-loss">
+                                    <span class="checkmark"></span>
+                                    Weight Loss
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="muscle-gain">
+                                    <span class="checkmark"></span>
+                                    Muscle Gain
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="energy">
+                                    <span class="checkmark"></span>
+                                    Increase Energy
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="sleep">
+                                    <span class="checkmark"></span>
+                                    Better Sleep
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="stress">
+                                    <span class="checkmark"></span>
+                                    Stress Management
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" value="general">
+                                    <span class="checkmark"></span>
+                                    General Wellness
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="timeline">Timeline for achieving goals</label>
+                            <select id="timeline">
+                                <option value="">Select timeline</option>
+                                <option value="1-month">1 month</option>
+                                <option value="3-months">3 months</option>
+                                <option value="6-months">6 months</option>
+                                <option value="1-year">1 year</option>
+                                <option value="ongoing">Ongoing maintenance</option>
+                            </select>
+                        </div>
+                        <div class="form-buttons">
+                            <button class="btn btn-secondary" onclick="prevStep()">Previous</button>
+                            <button class="btn btn-primary" onclick="generateRecommendations()">Get Recommendations</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="assessment-results" id="assessment-results" style="display: none;">
+                    <h3>Your Personalized Health Plan</h3>
+                    <div class="results-content">
+                        <div class="bmi-info">
+                            <h4>BMI Analysis</h4>
+                            <div class="bmi-result">
+                                <span class="bmi-value" id="bmi-value">--</span>
+                                <span class="bmi-category" id="bmi-category">--</span>
+                            </div>
+                        </div>
+                        <div class="recommendations">
+                            <h4>Personalized Recommendations</h4>
+                            <div id="recommendations-list"></div>
+                        </div>
+                        <div class="action-plan">
+                            <h4>Your Action Plan</h4>
+                            <div id="action-plan-list"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="resetAssessment()">Start New Assessment</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Health Resources Section -->
+    <section id="resources" class="resources">
+        <div class="container">
+            <h2>Health Resources & Tools</h2>
+            <p class="section-subtitle">Access comprehensive health information and interactive tools</p>
+            
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h3>Health Calculators</h3>
+                    <p>Calculate BMI, BMR, TDEE, and more health metrics</p>
+                    <button class="btn btn-outline" onclick="openCalculator('bmi')">BMI Calculator</button>
+                    <button class="btn btn-outline" onclick="openCalculator('bmr')">BMR Calculator</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <h3>Nutrition Guide</h3>
+                    <p>Learn about balanced nutrition, meal planning, and healthy eating habits</p>
+                    <button class="btn btn-outline" onclick="showNutritionGuide()">View Guide</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-dumbbell"></i>
+                    </div>
+                    <h3>Exercise Library</h3>
+                    <p>Discover workout routines, exercise techniques, and fitness tips</p>
+                    <button class="btn btn-outline" onclick="showExerciseLibrary()">Browse Exercises</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Mental Wellness</h3>
+                    <p>Resources for stress management, mindfulness, and mental health</p>
+                    <button class="btn btn-outline" onclick="showMentalWellness()">Explore</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-bed"></i>
+                    </div>
+                    <h3>Sleep Hygiene</h3>
+                    <p>Tips for better sleep quality and establishing healthy sleep habits</p>
+                    <button class="btn btn-outline" onclick="showSleepGuide()">Learn More</button>
+                </div>
+
+                <div class="resource-card">
+                    <div class="resource-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Health Tracking</h3>
+                    <p>Track your progress with our interactive health monitoring tools</p>
+                    <button class="btn btn-outline" onclick="openHealthTracker()">Start Tracking</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Support Section -->
+    <section id="support" class="support">
+        <div class="container">
+            <h2>Get Support & Connect</h2>
+            <p class="section-subtitle">Find the help and community you need on your health journey</p>
+            
+            <div class="support-grid">
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Community Forum</h3>
+                    <p>Connect with others on similar health journeys, share experiences, and get advice</p>
+                    <button class="btn btn-primary">Join Discussion</button>
+                </div>
+
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                    <h3>Expert Q&A</h3>
+                    <p>Get answers to your health questions from qualified healthcare professionals</p>
+                    <button class="btn btn-primary">Ask a Question</button>
+                </div>
+
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3>Health Challenges</h3>
+                    <p>Participate in community health challenges and stay motivated together</p>
+                    <button class="btn btn-primary">View Challenges</button>
+                </div>
+
+                <div class="support-card">
+                    <div class="support-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <h3>Personalized Content</h3>
+                    <p>Receive tailored health articles and tips based on your assessment results</p>
+                    <button class="btn btn-primary">Get Content</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About HealthHub</h2>
+            <p class="section-subtitle">Empowering individuals to take control of their health and wellness</p>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Our Mission</h3>
+                    <p>HealthHub is dedicated to providing personalized health guidance, comprehensive resources, and supportive community connections to help you achieve your wellness goals.</p>
+                    
+                    <h3>What We Offer</h3>
+                    <ul>
+                        <li>Personalized health assessments and recommendations</li>
+                        <li>Comprehensive health resources and tools</li>
+                        <li>Interactive health calculators and trackers</li>
+                        <li>Community support and expert guidance</li>
+                        <li>Evidence-based health information</li>
+                    </ul>
+                    
+                    <h3>Disclaimer</h3>
+                    <p>HealthHub provides general health information and should not replace professional medical advice. Always consult with healthcare professionals for medical concerns.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Active Users</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Health Resources</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Expert Contributors</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>HealthHub</h4>
+                    <p>Your personalized health companion for a better, healthier life.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#health-assessment">Health Assessment</a></li>
+                        <li><a href="#resources">Resources</a></li>
+                        <li><a href="#support">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Health Calculators</a></li>
+                        <li><a href="#">Nutrition Guide</a></li>
+                        <li><a href="#">Exercise Library</a></li>
+                        <li><a href="#">Mental Wellness</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <p>Email: info@healthhub.com</p>
+                    <p>Phone: +1 (555) 123-4567</p>
+                    <p>Address: 123 Health Street, Wellness City</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 HealthHub. All rights reserved. | Privacy Policy | Terms of Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal for Calculators -->
+    <div id="calculator-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="calculator-content"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

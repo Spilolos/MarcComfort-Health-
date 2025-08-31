@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HealthHub - User Portal</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .portal-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .portal-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .portal-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+        
+        .portal-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+        
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .card-title {
+            margin: 0;
+            font-size: 1.3rem;
+            color: #333;
+        }
+        
+        .health-data-item {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .health-data-item h4 {
+            margin: 0 0 10px 0;
+            color: #667eea;
+        }
+        
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .data-label {
+            font-weight: 500;
+            color: #666;
+        }
+        
+        .data-value {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+        
+        .btn-portal {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: transform 0.3s ease;
+        }
+        
+        .btn-portal:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-right: 10px;
+        }
+        
+        .logout-section {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+        
+        .assessment-history {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .assessment-item {
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 0 10px 10px 0;
+        }
+        
+        .assessment-date {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 10px;
+        }
+        
+        .bmi-display {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            margin: 5px 0;
+        }
+
+        .goal-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .goal-actions .btn-secondary {
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            border-radius: 15px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .goal-actions .btn-secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="portal-container">
+        <!-- Portal Header -->
+        <div class="portal-header">
+            <h1 id="welcome-title">Welcome to Your Health Portal</h1>
+            <p id="welcome-subtitle">Track your health journey and access personalized insights</p>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="dashboard-grid">
+            <!-- Profile Overview -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #667eea;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h3 class="card-title">Profile Overview</h3>
+                </div>
+                <div id="profile-content">
+                    <div class="health-data-item">
+                        <h4>Account Information</h4>
+                        <div class="data-row">
+                            <span class="data-label">Username:</span>
+                            <span class="data-value" id="profile-username">--</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Email:</span>
+                            <span class="data-value" id="profile-email">--</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Member Since:</span>
+                            <span class="data-value" id="profile-created">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Health Summary -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #28a745;">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3 class="card-title">Health Summary</h3>
+                </div>
+                <div id="health-summary">
+                    <div class="empty-state">
+                        <i class="fas fa-clipboard-list"></i>
+                        <p>Complete your first health assessment to see your personalized summary</p>
+                        <button class="btn-portal" onclick="goToAssessment()">Start Assessment</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assessment History -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #ffc107;">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="card-title">Assessment History</h3>
+                </div>
+                <div id="assessment-history" class="assessment-history">
+                    <div class="empty-state">
+                        <i class="fas fa-chart-line"></i>
+                        <p>No assessments completed yet</p>
+                        <button class="btn-portal" onclick="goToAssessment()">Take Assessment</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals & Progress -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <div class="card-icon" style="background: #dc3545;">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h3 class="card-title">Goals & Progress</h3>
+                </div>
+                <div id="goals-content">
+                    <div class="empty-state">
+                        <i class="fas fa-flag"></i>
+                        <p>Set your health goals to start tracking progress</p>
+                        <button class="btn-portal" onclick="setGoals()">Set Goals</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Logout Section -->
+        <div class="logout-section">
+            <button class="btn-secondary" onclick="goToHome()">Back to Home</button>
+            <button class="btn-portal" onclick="logOut()">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // User Portal JavaScript
+        class UserPortal {
+            constructor() {
+                this.currentUser = null;
+                this.init();
+            }
+
+            init() {
+                this.checkAuth();
+                this.loadUserData();
+                this.setupEventListeners();
+            }
+
+            checkAuth() {
+                const userData = localStorage.getItem('currentUser');
+                if (!userData) {
+                    window.location.href = 'index.html';
+                    return;
+                }
+
+                try {
+                    this.currentUser = JSON.parse(userData);
+                } catch (e) {
+                    window.location.href = 'index.html';
+                }
+            }
+
+            loadUserData() {
+                this.updateProfile();
+                this.loadHealthSummary();
+                this.loadAssessmentHistory();
+                this.loadGoals();
+            }
+
+            updateProfile() {
+                document.getElementById('welcome-title').textContent = `Welcome, ${this.currentUser.username}!`;
+                document.getElementById('profile-username').textContent = this.currentUser.username;
+                document.getElementById('profile-email').textContent = this.currentUser.email;
+                
+                const createdDate = new Date(this.currentUser.createdAt);
+                document.getElementById('profile-created').textContent = createdDate.toLocaleDateString();
+            }
+
+            loadHealthSummary() {
+                const healthData = this.currentUser.healthData;
+                const summaryContainer = document.getElementById('health-summary');
+
+                if (healthData.assessments.length === 0) {
+                    return; // Keep empty state
+                }
+
+                const latestAssessment = healthData.assessments[healthData.assessments.length - 1];
+                
+                summaryContainer.innerHTML = `
+                    <div class="health-data-item">
+                        <h4>Latest Assessment</h4>
+                        <div class="data-row">
+                            <span class="data-label">BMI:</span>
+                            <span class="data-value">
+                                <span class="bmi-display">${latestAssessment.bmi}</span>
+                                <small>(${latestAssessment.bmiCategory})</small>
+                            </span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Age:</span>
+                            <span class="data-value">${latestAssessment.age} years</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Weight:</span>
+                            <span class="data-value">${latestAssessment.weight} kg</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Height:</span>
+                            <span class="data-value">${latestAssessment.height} cm</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Activity Level:</span>
+                            <span class="data-value">${this.formatActivityLevel(latestAssessment.activity)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            loadAssessmentHistory() {
+                const healthData = this.currentUser.healthData;
+                const historyContainer = document.getElementById('assessment-history');
+
+                if (healthData.assessments.length === 0) {
+                    return; // Keep empty state
+                }
+
+                const historyHTML = healthData.assessments.map(assessment => `
+                    <div class="assessment-item">
+                        <div class="assessment-date">
+                            ${new Date(assessment.timestamp).toLocaleDateString()} at ${new Date(assessment.timestamp).toLocaleTimeString()}
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">BMI:</span>
+                            <span class="data-value">${assessment.bmi} (${assessment.bmiCategory})</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Goals:</span>
+                            <span class="data-value">${assessment.goals.join(', ')}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Timeline:</span>
+                            <span class="data-value">${assessment.timeline}</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                historyContainer.innerHTML = historyHTML;
+            }
+
+            loadGoals() {
+                const healthData = this.currentUser.healthData;
+                const goalsContainer = document.getElementById('goals-content');
+
+                if (healthData.goals.length === 0) {
+                    return; // Keep empty state
+                }
+
+                const goalsHTML = healthData.goals.map((goal, index) => `
+                    <div class="health-data-item">
+                        <h4>${goal.title}</h4>
+                        <div class="data-row">
+                            <span class="data-label">Target:</span>
+                            <span class="data-value">${goal.target}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Deadline:</span>
+                            <span class="data-value">${new Date(goal.deadline).toLocaleDateString()}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${goal.progress}%"></div>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Progress:</span>
+                            <span class="data-value">${goal.progress}%</span>
+                        </div>
+                        <div class="goal-actions">
+                            <button class="btn-secondary" onclick="updateProgress(${index})">Update Progress</button>
+                            <button class="btn-secondary" onclick="deleteGoal(${index})">Delete Goal</button>
+                        </div>
+                    </div>
+                `).join('');
+
+                goalsContainer.innerHTML = goalsHTML;
+            }
+
+            formatActivityLevel(level) {
+                const levels = {
+                    'sedentary': 'Sedentary',
+                    'light': 'Lightly Active',
+                    'moderate': 'Moderately Active',
+                    'very': 'Very Active',
+                    'extra': 'Extra Active'
+                };
+                return levels[level] || level;
+            }
+
+            setupEventListeners() {
+                // Add any additional event listeners here
+            }
+        }
+
+        // Initialize portal
+        const userPortal = new UserPortal();
+
+        // Navigation functions
+        function goToAssessment() {
+            window.location.href = 'index.html#health-assessment';
+        }
+
+        function goToHome() {
+            window.location.href = 'index.html';
+        }
+
+        function setGoals() {
+            const goalTitle = prompt('Enter your health goal:');
+            if (!goalTitle) return;
+            
+            const target = prompt('What is your target? (e.g., "Lose 10kg", "Run 5km")');
+            if (!target) return;
+            
+            const deadline = prompt('When do you want to achieve this? (YYYY-MM-DD)');
+            if (!deadline) return;
+            
+            const progress = prompt('Current progress (0-100%):', '0');
+            if (progress === null) return;
+            
+            const goal = {
+                title: goalTitle,
+                target: target,
+                deadline: deadline,
+                progress: parseInt(progress) || 0,
+                createdAt: new Date().toISOString()
+            };
+            
+            // Add goal to user's health data
+            if (userPortal.currentUser) {
+                const userData = localStorage.getItem(`user_${userPortal.currentUser.username}`);
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    user.profile.healthData.goals.push(goal);
+                    localStorage.setItem(`user_${userPortal.currentUser.username}`, JSON.stringify(user));
+                    userPortal.currentUser = user.profile;
+                    localStorage.setItem('currentUser', JSON.stringify(userPortal.currentUser));
+                    
+                    // Reload goals display
+                    userPortal.loadGoals();
+                }
+            }
+        }
+
+        function logOut() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        function updateProgress(goalIndex) {
+            const newProgress = prompt('Enter new progress (0-100%):');
+            if (newProgress === null || newProgress === '') return;
+            
+            const progress = parseInt(newProgress);
+            if (isNaN(progress) || progress < 0 || progress > 100) {
+                alert('Please enter a valid percentage between 0 and 100.');
+                return;
+            }
+            
+            if (userPortal.currentUser) {
+                const userData = localStorage.getItem(`user_${userPortal.currentUser.username}`);
+                if (userData) {
+                    const user = JSON.parse(userData);
+                    user.profile.healthData.goals[goalIndex].progress = progress;
+                    localStorage.setItem(`user_${userPortal.currentUser.username}`, JSON.stringify(user));
+                    userPortal.currentUser = user.profile;
+                    localStorage.setItem('currentUser', JSON.stringify(userPortal.currentUser));
+                    
+                    // Reload goals display
+                    userPortal.loadGoals();
+                }
+            }
+        }
+
+        function deleteGoal(goalIndex) {
+            if (confirm('Are you sure you want to delete this goal?')) {
+                if (userPortal.currentUser) {
+                    const userData = localStorage.getItem(`user_${userPortal.currentUser.username}`);
+                    if (userData) {
+                        const user = JSON.parse(userData);
+                        user.profile.healthData.goals.splice(goalIndex, 1);
+                        localStorage.setItem(`user_${userPortal.currentUser.username}`, JSON.stringify(user));
+                        userPortal.currentUser = user.profile;
+                        localStorage.setItem('currentUser', JSON.stringify(userPortal.currentUser));
+                        
+                        // Reload goals display
+                        userPortal.loadGoals();
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
+
